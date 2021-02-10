@@ -3,11 +3,11 @@ import abc
 import pygame
 import sys
 import math
+import random
 
-
-# TODO
-# make game end if no one wins, draw function
-# make Computer opponent
+#TODO
+# make logic to not allow stone placement in full columns -> somewhat done should work in theory but isn't rn
+# make Computer opponent -> made random moves for CPU opponent
 # Unit Tests
 # Doc
 
@@ -147,12 +147,22 @@ class PlayBoard(Board):
                         board[j - 3][i + 3] == stone:
                     return True
 
+    def draw(self, board):
         # Check if Spaces are still available
         if 0 in board:
             pass
         else:
-            label = self.font.render("Draw!", 1, self.blue)
-            return True, label
+            return True
+
+    # something isn't working, uncommented in further code
+    # def column_full(self, board):
+    #    # check if column is full
+    #    for i in range(self.columns):
+    #        if board[0:1, i:i + 1] != 0:
+    #            return False
+    #        else:
+    #            return True
+
 
 
     def render_board(self, board):
@@ -212,6 +222,15 @@ class PlayBoard(Board):
                             row = self.next_row(playboard, col)
                             self.place_stone(playboard, row, col, 1)
 
+                            if self.draw(playboard):
+                                label = self.font.render("Draw!", 1, self.blue)
+                                self.screen.blit(label, (10, 10))
+                                game_over = True
+
+                            # if self.column_full(playboard):
+                            #     label = self.font.render("FULL!", 1, self.blue)
+                            #     self.screen.blit(label, (10, 10))
+
                             if self.win_cond(playboard, 1):
                                 label = self.font.render("Player 1 wins!!", 1, self.red)
                                 self.screen.blit(label, (10, 10))
@@ -228,13 +247,40 @@ class PlayBoard(Board):
                                 row = self.next_row(playboard, col)
                                 self.place_stone(playboard, row, col, 2)
 
+                                if self.draw(playboard):
+                                    label = self.font.render("Draw!", 1, self.blue)
+                                    self.screen.blit(label, (10, 10))
+                                    game_over = True
+
+                                # if self.column_full(playboard):
+                                #     label = self.font.render("FULL!", 1, self.blue)
+                                #     self.screen.blit(label, (10, 10))
+
                                 if self.win_cond(playboard, 2):
                                     label = self.font.render("Player 2 wins!!", 1, self.yellow)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
 
                         elif multiplayer == 'N':
-                            pass
+                            col = random.randint(0, 6)
+
+                            if self.loc_valid(playboard, col):
+                                row = self.next_row(playboard, col)
+                                self.place_stone(playboard, row, col, 2)
+
+                                if self.draw(playboard):
+                                    label = self.font.render("Draw!", 1, self.blue)
+                                    self.screen.blit(label, (10, 10))
+                                    game_over = True
+
+                                # if self.column_full(playboard):
+                                #     label = self.font.render("FULL!", 1, self.blue)
+                                #     self.screen.blit(label, (10, 10))
+
+                                if self.win_cond(playboard, 2):
+                                    label = self.font.render("Player 2 wins!!", 1, self.yellow)
+                                    self.screen.blit(label, (10, 10))
+                                    game_over = True
                         else:
                             sys.exit()
 
