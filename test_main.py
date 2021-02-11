@@ -13,12 +13,13 @@ from main import Board, PlayBoard
 
 class test_game(unittest.TestCase):
 
+
     def setUp(self) -> None:
 
         self.columns = 7
         self.rows = 6
-
-
+        self.player_one = 1
+        self.player_two = 2
         self.win_1 = np.array([[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0],
                                [0, 0, 0, 0, 0, 0, 0], [2, 2, 2, 0, 0, 0, 0], [1, 1, 1, 1, 0, 0, 0]])
 
@@ -26,7 +27,7 @@ class test_game(unittest.TestCase):
                                [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0]])
 
         self.not_win = np.array([[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0],
-                               [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0]])
+                                [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0]])
 
         self.draw = np.array([[1, 1, 2, 1, 2, 1, 2, ], [2, 1, 2, 1, 2, 1, 1, ], [2, 1, 2, 1, 2, 1, 2, ],
                               [1, 2, 1, 2, 1, 2, 1, ], [1, 2, 1, 2, 1, 2, 2, ], [1, 2, 1, 2, 1, 2, 1, ]])
@@ -38,22 +39,19 @@ class test_game(unittest.TestCase):
 
 
     def test_draw(self):
-        self.assertTrue(PlayBoard.draw(self.draw), msg="It's not a draw!")
-        self.assertFalse(PlayBoard.draw(self.not_draw), msg="It's actually a draw!")
+        self.assertTrue(PlayBoard.draw(self.draw), msg="It's actually a draw!")
+        self.assertFalse(PlayBoard.draw(self.not_draw), msg="It's not a draw!")
 
 
 
     def test_win_cond(self):
-        self.assertTrue(PlayBoard.win_cond(self, self.win_1, any([1, 1])), msg="Has not won!")
+        self.assertTrue(PlayBoard.win_cond(self, self.win_1, self.player_one), msg="Has not won!")
         self.assertTrue(PlayBoard.win_cond(self, self.win_2, any([1, 1])), msg="Has not won!")
         self.assertFalse(PlayBoard.win_cond(self, self.not_win, any([1, 1])), msg="Has actually won!")
 
 
-    #def test_place_stone(self):
-    #    test = self.test_win_cond_1_2
-    #    erg = PlayBoard.place_stone(self, self.test_win_cond_1, 1, 5, None)
-    #    self.assertEqual(test, erg)
-    #    pass
+    def test_place_stone(self):
+        pass
 
     def test_make_board(self):
         pass
