@@ -10,7 +10,7 @@ import random
 # make logic to not allow stone placement in full columns -> somewhat done should work in theory but isn't rn
 # make Computer opponent -> made random moves for CPU opponent
 # Unit Tests
-# Doc
+# Doc -> added docstrings, inline comments next where they are needed
 
 
 class Board(abc.ABC):
@@ -22,11 +22,11 @@ class Board(abc.ABC):
     rows : int
         number of Rows
     size : int
-        sizeconstant to calculate the size of the play area, stones etc.
+        constant to calculate the size of the play area, stones etc.
     height : int
-        height of the diplay based on rows and size
+        height of the display based on rows and size
     width : int
-        width of the diplay based on rows and size
+        width of the display based on rows and size
     screen_size : int
         size of the screen based on height and width
     blue : tuple
@@ -234,14 +234,14 @@ class PlayBoard(Board):
                         board[j + 3][i] == stone:
                     return True
 
-        # check positiv diagonals for win condition
+        # check pos diagonals for win condition
         for i in range(self.columns - 3):
             for j in range(self.rows - 3):
                 if board[j][i] == stone and board[j + 1][i + 1] == stone and board[j + 2][i + 2] == stone and \
                         board[j + 3][i + 3] == stone:
                     return True
 
-        # check negativ sloped diagonals for win condition
+        # check neg sloped diagonals for win condition
         for i in range(self.columns - 3):
             for j in range(3, self.rows):
                 if board[j][i] == stone and board[j - 1][i + 1] == stone and board[j - 2][i + 2] == stone and \
@@ -311,12 +311,12 @@ class PlayBoard(Board):
         """
         multiplayer = input("Multiplayer? Y/N: ")
         multiplayer = multiplayer.upper()
-        playboard = self.make_board()
+        play_board = self.make_board()
         game_over = False
         turn = 0
 
         pygame.init()
-        self.render_board(playboard)
+        self.render_board(play_board)
         pygame.display.update()
         # Ask for Solo or Multiplayer
         while not game_over:
@@ -326,11 +326,11 @@ class PlayBoard(Board):
 
                 if event.type == pygame.MOUSEMOTION:
                     pygame.draw.rect(self.screen, self.black, (0, 0, self.width, self.size))
-                    posx = event.pos[0]
+                    position = event.pos[0]
                     if turn == 0:
-                        pygame.draw.circle(self.screen, self.red, (posx, int(self.size / 2)), self.rad)
+                        pygame.draw.circle(self.screen, self.red, (position, int(self.size / 2)), self.rad)
                     else:
-                        pygame.draw.circle(self.screen, self.yellow, (posx, int(self.size / 2)), self.rad)
+                        pygame.draw.circle(self.screen, self.yellow, (position, int(self.size / 2)), self.rad)
                     pygame.display.update()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -338,23 +338,23 @@ class PlayBoard(Board):
                     # print(event.pos)
                     # Ask for Player 1 Input
                     if turn == 0:
-                        posx = event.pos[0]
-                        col = int(math.floor(posx / self.size))
+                        position = event.pos[0]
+                        col = int(math.floor(position / self.size))
 
-                        if self.loc_valid(playboard, col):
-                            row = self.next_row(playboard, col)
-                            self.place_stone(playboard, row, col, 1)
+                        if self.loc_valid(play_board, col):
+                            row = self.next_row(play_board, col)
+                            self.place_stone(play_board, row, col, 1)
 
-                            if self.draw(playboard):
+                            if self.draw(play_board):
                                 label = self.font.render("Draw!", True, self.blue)
                                 self.screen.blit(label, (10, 10))
                                 game_over = True
 
-                            # if self.column_full(playboard):
+                            # if self.column_full(play_board):
                             #     label = self.font.render("FULL!", 1, self.blue)
                             #     self.screen.blit(label, (10, 10))
 
-                            if self.win_cond(playboard, 1):
+                            if self.win_cond(play_board, 1):
                                 label = self.font.render("Player 1 wins!!", True, self.red)
                                 self.screen.blit(label, (10, 10))
                                 game_over = True
@@ -363,23 +363,23 @@ class PlayBoard(Board):
                     else:
                         if multiplayer == 'Y':
 
-                            posx = event.pos[0]
-                            col = int(math.floor(posx / self.size))
+                            position = event.pos[0]
+                            col = int(math.floor(position / self.size))
 
-                            if self.loc_valid(playboard, col):
-                                row = self.next_row(playboard, col)
-                                self.place_stone(playboard, row, col, 2)
+                            if self.loc_valid(play_board, col):
+                                row = self.next_row(play_board, col)
+                                self.place_stone(play_board, row, col, 2)
 
-                                if self.draw(playboard):
+                                if self.draw(play_board):
                                     label = self.font.render("Draw!", True, self.blue)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
 
-                                # if self.column_full(playboard):
+                                # if self.column_full(play_board):
                                 #     label = self.font.render("FULL!", 1, self.blue)
                                 #     self.screen.blit(label, (10, 10))
 
-                                if self.win_cond(playboard, 2):
+                                if self.win_cond(play_board, 2):
                                     label = self.font.render("Player 2 wins!!", True, self.yellow)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
@@ -387,28 +387,28 @@ class PlayBoard(Board):
                         elif multiplayer == 'N':
                             col = random.randint(0, 6)
 
-                            if self.loc_valid(playboard, col):
-                                row = self.next_row(playboard, col)
-                                self.place_stone(playboard, row, col, 2)
+                            if self.loc_valid(play_board, col):
+                                row = self.next_row(play_board, col)
+                                self.place_stone(play_board, row, col, 2)
 
-                                if self.draw(playboard):
+                                if self.draw(play_board):
                                     label = self.font.render("Draw!!", True, self.blue)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
 
-                                # if self.column_full(playboard):
+                                # if self.column_full(play_board):
                                 #     label = self.font.render("FULL!", 1, self.blue)
                                 #     self.screen.blit(label, (10, 10))
 
-                                if self.win_cond(playboard, 2):
+                                if self.win_cond(play_board, 2):
                                     label = self.font.render("Player 2 wins!!", True, self.yellow)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
                         else:
                             sys.exit()
 
-                    # self.print_board(playboard)
-                    self.render_board(playboard)
+                    # self.print_board(play_board)
+                    self.render_board(play_board)
 
                     turn += 1
                     turn = turn % 2
