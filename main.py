@@ -11,6 +11,9 @@ import random
 # make Computer opponent -> made random moves for CPU opponent
 # Unit Tests
 # Doc -> added docstrings, inline comments next where they are needed
+# make package list for virtual environment
+# write readme
+# create sphinx documentation
 
 
 class Board(abc.ABC):
