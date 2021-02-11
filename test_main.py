@@ -1,10 +1,11 @@
 import unittest
+import numpy as np
 from main import Board, PlayBoard
 
 
 # TODO
-# draw
-# win_cond
+# draw - I think it's done
+# win_cond - I think it's done
 # loc_valid
 # place_stone
 # game_over
@@ -12,106 +13,47 @@ from main import Board, PlayBoard
 
 class test_game(unittest.TestCase):
 
-    def setUp(self):
-        self.columns = 6
-        self.rows = 7
+    def setUp(self) -> None:
 
-        self.blank_game_state_1 = [
-            ["0", "0", "0", "0", "0", "0", "0"],
-            ["0", "0", "0", "0", "0", "0", "0"],
-            ["0", "0", "0", "0", "0", "0", "0"],
-            ["0", "0", "0", "0", "0", "0", "0"],
-            ["0", "0", "0", "0", "0", "0", "0"],
-            ["0", "0", "0", "0", "0", "0", "0"],
-        ]
+        self.columns = 7
+        self.rows = 6
 
-        self.test_game_state_2 = [
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "2", "1", "0", "0", "0",],
-            ["0", "0", "1", "2", "0", "0", "0",],
-            ["1", "2", "2", "1", "2", "1", "2",],
-            ["1", "1", "2", "2", "1", "2", "1",],
-        ]
 
-        self.test_game_stat_3 = [
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "2", "1", "0", "0", "0",],
-            ["0", "0", "2", "1", "0", "0", "0",],
-            ["1", "2", "2", "1", "2", "1", "2",],
-            ["1", "1", "2", "2", "1", "2", "1",],
-        ]
+        self.win_1 = np.array([[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0],
+                               [0, 0, 0, 0, 0, 0, 0], [2, 2, 2, 0, 0, 0, 0], [1, 1, 1, 1, 0, 0, 0]])
 
-        self.test_win_cond_1 = [
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["2", "2", "2", "0", "0", "0", "0",],
-            ["1", "1", "1", "1", "0", "0", "0",],
-        ]
+        self.win_2 = np.array([[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0],
+                               [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0]])
 
-        self.test_win_cond_2 = [
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "0", "1", "0", "0", "0",],
-            ["0", "0", "1", "2", "0", "0", "0",],
-            ["2", "1", "2", "1", "0", "0", "0",],
-            ["1", "2", "1", "2", "0", "0", "0",],
-        ]
+        self.not_win = np.array([[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0],
+                               [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0]])
 
-        self.test_win_cond_3 = [
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["0", "0", "0", "0", "0", "0", "0",],
-            ["1", "0", "0", "0", "0", "0", "0",],
-            ["1", "2", "0", "0", "0", "0", "0",],
-            ["1", "2", "0", "0", "0", "0", "0",],
-            ["1", "2", "0", "0", "0", "0", "0",],
-        ]
+        self.draw = np.array([[1, 1, 2, 1, 2, 1, 2, ], [2, 1, 2, 1, 2, 1, 1, ], [2, 1, 2, 1, 2, 1, 2, ],
+                              [1, 2, 1, 2, 1, 2, 1, ], [1, 2, 1, 2, 1, 2, 2, ], [1, 2, 1, 2, 1, 2, 1, ]])
 
-        self.test_draw = [
-            ["2", "1", "2", "1", "2", "1", "2",],
-            ["2", "1", "2", "1", "2", "1", "1",],
-            ["2", "1", "2", "1", "2", "1", "2",],
-            ["1", "2", "1", "2", "1", "2", "1",],
-            ["1", "2", "1", "2", "1", "2", "2",],
-            ["1", "2", "1", "2", "1", "2", "1",],
-        ]
+        self.not_draw = np.array([[1, 0, 0, 1, 2, 1, 2, ], [2, 1, 2, 1, 2, 1, 1, ], [2, 1, 2, 1, 2, 1, 2, ],
+                              [1, 2, 1, 2, 1, 2, 1, ], [1, 2, 1, 2, 1, 2, 2, ], [1, 2, 1, 2, 1, 2, 1, ]])
 
-        self.test_draw_2 = [
-            [2, 1, 2, 1, 2, 1, 2,],
-            [2, 1, 2, 1, 2, 1, 1,],
-            [2, 1, 2, 1, 2, 1, 2,],
-            [1, 2, 1, 2, 1, 2, 1,],
-            [1, 2, 1, 2, 1, 2, 2,],
-            [1, 2, 1, 2, 1, 2, 1,],
-        ]
-
-        self.test_draw_3 = [
-            [2, 1, 2, 1, 2, 0, 2,],
-            [2, 1, 2, 1, 2, 1, 1,],
-            [2, 1, 2, 1, 2, 1, 2,],
-            [1, 2, 1, 2, 1, 2, 1,],
-            [1, 2, 1, 2, 1, 2, 2,],
-            [1, 2, 1, 2, 1, 2, 1,],
-        ]
-
+        self.stone = PlayBoard.place_stone(self, self.win_1, 5, 5, 0)
 
 
     def test_draw(self):
-        self.assertTrue(PlayBoard.draw(self, self.test_draw_2))
-        self.assertTrue(PlayBoard.draw(self, self.test_draw_3))
-        #self.assertFalse(PlayBoard.draw(self, self.test_draw_2))
-        #self.assertFasle(PlayBoard.draw(self, self.test_draw_3))
+        self.assertTrue(PlayBoard.draw(self.draw), msg="It's not a draw!")
+        self.assertFalse(PlayBoard.draw(self.not_draw), msg="It's actually a draw!")
+
 
 
     def test_win_cond(self):
-        #self.assertTrue(PlayBoard.win_cond(self, self.test_win_cond_3, None))
-        pass
+        self.assertTrue(PlayBoard.win_cond(self, self.win_1, any([1, 1])), msg="Has not won!")
+        self.assertTrue(PlayBoard.win_cond(self, self.win_2, any([1, 1])), msg="Has not won!")
+        self.assertFalse(PlayBoard.win_cond(self, self.not_win, any([1, 1])), msg="Has actually won!")
 
-    def test_place_stone(self):
-        pass
+
+    #def test_place_stone(self):
+    #    test = self.test_win_cond_1_2
+    #    erg = PlayBoard.place_stone(self, self.test_win_cond_1, 1, 5, None)
+    #    self.assertEqual(test, erg)
+    #    pass
 
     def test_make_board(self):
         pass
@@ -125,5 +67,6 @@ class test_game(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
 
 
