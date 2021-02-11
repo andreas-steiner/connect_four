@@ -193,7 +193,8 @@ class PlayBoard(Board):
         board = np.zeros((self.rows, self.columns))
         return board
 
-    def print_board(self, board):
+    @staticmethod
+    def print_board(board):
         """ prints the numpy array of the board to the console
         Parameters
         ___________
@@ -222,15 +223,15 @@ class PlayBoard(Board):
         # check rows for win condition
         for i in range(self.columns - 3):
             for j in range(self.rows):
-                if board[j][i] == stone and board[j][i + 1] == stone and board[j][i + 2] == stone and board[j][
-                    i + 3] == stone:
+                if board[j][i] == stone and board[j][i + 1] == stone and board[j][i + 2] == stone and \
+                        board[j][i + 3] == stone:
                     return True
 
         # check columns for win condition
         for i in range(self.columns):
             for j in range(self.rows - 3):
-                if board[j][i] == stone and board[j + 1][i] == stone and board[j + 2][i] == stone and board[j + 3][
-                    i] == stone:
+                if board[j][i] == stone and board[j + 1][i] == stone and board[j + 2][i] == stone and \
+                        board[j + 3][i] == stone:
                     return True
 
         # check positiv diagonals for win condition
@@ -247,7 +248,8 @@ class PlayBoard(Board):
                         board[j - 3][i + 3] == stone:
                     return True
 
-    def draw(self, board):
+    @staticmethod
+    def draw(board):
         """checks if there are still valid places left for stones
         Parameters
         ___________
@@ -416,5 +418,4 @@ class PlayBoard(Board):
 
 
 if __name__ == '__main__':
-    board = PlayBoard()
-    board.start_game()
+    PlayBoard().start_game()
