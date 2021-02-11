@@ -5,7 +5,8 @@ import sys
 import math
 import random
 
-#TODO
+
+# TODO
 # make logic to not allow stone placement in full columns -> somewhat done should work in theory but isn't rn
 # make Computer opponent -> made random moves for CPU opponent
 # Unit Tests
@@ -13,9 +14,39 @@ import random
 
 
 class Board(abc.ABC):
+    """Board class used as parent class for the future playing board
+    Parameters
+    ___________
+    columns : int
+        number of Columns
+    rows : int
+        number of Rows
+    size : int
+        sizeconstant to calculate the size of the play area, stones etc.
+    height : int
+        height of the diplay based on rows and size
+    width : int
+        width of the diplay based on rows and size
+    screen_size : int
+        size of the screen based on height and width
+    blue : tuple
+        color attribute for blue
+    black : tuple
+        color attribute for black
+    red : tuple
+        color attribute for red
+    yellow : tuple
+        color attribute for yellow
+    rad : int
+        radius of the stones
+    screen : function
+        pygame function to set the screen up
+    font : function
+        pygame function to set the font up"""
+
     def __init__(self):
-        self.__columns = 6
-        self.__rows = 7
+        self.__columns = 7
+        self.__rows = 6
         self.__size = 100
 
         self.__height = (self.__rows + 1) * self.__size
@@ -29,7 +60,7 @@ class Board(abc.ABC):
         self.__rad = int(self.size / 2 - 5)
         pygame.init()
         self.__screen = pygame.display.set_mode(self.__screen_size)
-        self.__font = pygame.font.SysFont("monospace", 75)
+        self.__font = pygame.font.SysFont("arial", 75)
 
     @property
     def columns(self):
@@ -79,19 +110,78 @@ class Board(abc.ABC):
     def font(self):
         return self.__font
 
+    # abstract methods that need to be in the child class
     def make_board(self):
+        """Creates the board
+        Returns
+        ___________
+        numpy array
+            a board with no places filled
+        """
         pass
 
     def place_stone(self, board, row, col, stone):
+        """updates the Board with the position of the placed stone
+        Parameters
+        ___________
+        board : numpy array
+            a representation of the board in array form
+        row : int
+            row coordinate where the stone will be placed
+        col : int
+            col coordinate where the stone will be placed
+        stone : int
+            identifier for which player placed the stone for ex. 1 for player one
+        Returns
+        ___________
+        board : numpy array
+            an updated array of the board with the newly placed stone
+        """
         pass
 
     def loc_valid(self, board, col):
+        """checks if the selected placement is valid
+        Parameters
+        ___________
+        board : numpy array
+            a representation of the board in array form
+        col : int
+            identifier for column position
+        Returns
+        ___________
+        board : numpy array
+            an updated board with valid locations
+        """
         pass
 
     def next_row(self, board, col):
+        """checks if the next stone would end up in a new row
+        Parameters
+        ___________
+        board : numpy array
+            a representation of the board in array form
+        col : int
+            identifier for column position
+        Returns
+        ___________
+        board : numpy array
+            an updated board
+        """
         pass
 
     def win_cond(self, board, stone):
+        """win conditions that would result in the end of the game
+        Parameters
+        ___________
+        board : numpy array
+            a representation of the board in array form
+        stone : int
+            identifier for which player placed the stone for ex. 1 for player one
+        Returns
+        ___________
+        bool
+            returns True if a win conditions is met
+        """
         pass
 
 
@@ -104,6 +194,16 @@ class PlayBoard(Board):
         return board
 
     def print_board(self, board):
+        """ prints the numpy array of the board to the console
+        Parameters
+        ___________
+        board : numpy array
+            a representation of the board in array form
+        Returns
+        ___________
+        str
+            a representation of the array in str format printed to the console
+        """
         return print(np.flip(board, 0))
 
     def place_stone(self, board, row, col, stone):
@@ -119,28 +219,28 @@ class PlayBoard(Board):
                 return r
 
     def win_cond(self, board, stone):
-        # Check horizontal locations for win
+        # check rows for win condition
         for i in range(self.columns - 3):
             for j in range(self.rows):
                 if board[j][i] == stone and board[j][i + 1] == stone and board[j][i + 2] == stone and board[j][
                     i + 3] == stone:
                     return True
 
-        # Check vertical locations for win
+        # check columns for win condition
         for i in range(self.columns):
             for j in range(self.rows - 3):
                 if board[j][i] == stone and board[j + 1][i] == stone and board[j + 2][i] == stone and board[j + 3][
                     i] == stone:
                     return True
 
-        # Check positively sloped diagonals
+        # check positiv diagonals for win condition
         for i in range(self.columns - 3):
             for j in range(self.rows - 3):
                 if board[j][i] == stone and board[j + 1][i + 1] == stone and board[j + 2][i + 2] == stone and \
                         board[j + 3][i + 3] == stone:
                     return True
 
-        # Check negatively sloped diagonals
+        # check negativ sloped diagonals for win condition
         for i in range(self.columns - 3):
             for j in range(3, self.rows):
                 if board[j][i] == stone and board[j - 1][i + 1] == stone and board[j - 2][i + 2] == stone and \
@@ -148,24 +248,41 @@ class PlayBoard(Board):
                     return True
 
     def draw(self, board):
-        # Check if Spaces are still available
+        """checks if there are still valid places left for stones
+        Parameters
+        ___________
+        board : numpy array
+            a representation of the board in array form
+        Returns
+        ___________
+        Bool
+            returns True if no more free spaces are available
+        """
         if 0 in board:
             pass
         else:
             return True
 
-    # something isn't working, uncommented in further code
+    # # something isn't working, uncommented in further code
     # def column_full(self, board):
-    #    # check if column is full
-    #    for i in range(self.columns):
-    #        if board[0:1, i:i + 1] != 0:
-    #            return False
-    #        else:
-    #            return True
-
-
+    #     # check if column is full
+    #     for i in range(self.columns):
+    #         if board[0:1, i:i + 1] == 0:
+    #             return False
+    #         else:
+    #             return True
 
     def render_board(self, board):
+        """renders the board in pygame
+        Parameters
+        ___________
+        board : numpy array
+            a representation of the board in array form
+        Returns
+        ___________
+        function
+            a pygame display update with the applied settings
+        """
         for c in range(self.columns):
             for r in range(self.rows):
                 pygame.draw.rect(self.screen, self.blue,
@@ -185,9 +302,13 @@ class PlayBoard(Board):
         pygame.display.update()
 
     def start_game(self):
+        """starts a game of connect 4 and asks the player for multiplayer or single player
+        Returns
+        ___________
+        opens a new window with a game of connect 4 running on it
+        """
         multiplayer = input("Multiplayer? Y/N: ")
         multiplayer = multiplayer.upper()
-
         playboard = self.make_board()
         game_over = False
         turn = 0
@@ -223,7 +344,7 @@ class PlayBoard(Board):
                             self.place_stone(playboard, row, col, 1)
 
                             if self.draw(playboard):
-                                label = self.font.render("Draw!", 1, self.blue)
+                                label = self.font.render("Draw!", True, self.blue)
                                 self.screen.blit(label, (10, 10))
                                 game_over = True
 
@@ -232,7 +353,7 @@ class PlayBoard(Board):
                             #     self.screen.blit(label, (10, 10))
 
                             if self.win_cond(playboard, 1):
-                                label = self.font.render("Player 1 wins!!", 1, self.red)
+                                label = self.font.render("Player 1 wins!!", True, self.red)
                                 self.screen.blit(label, (10, 10))
                                 game_over = True
 
@@ -248,7 +369,7 @@ class PlayBoard(Board):
                                 self.place_stone(playboard, row, col, 2)
 
                                 if self.draw(playboard):
-                                    label = self.font.render("Draw!", 1, self.blue)
+                                    label = self.font.render("Draw!", True, self.blue)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
 
@@ -257,7 +378,7 @@ class PlayBoard(Board):
                                 #     self.screen.blit(label, (10, 10))
 
                                 if self.win_cond(playboard, 2):
-                                    label = self.font.render("Player 2 wins!!", 1, self.yellow)
+                                    label = self.font.render("Player 2 wins!!", True, self.yellow)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
 
@@ -269,7 +390,7 @@ class PlayBoard(Board):
                                 self.place_stone(playboard, row, col, 2)
 
                                 if self.draw(playboard):
-                                    label = self.font.render("Draw!", 1, self.blue)
+                                    label = self.font.render("Draw!!", True, self.blue)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
 
@@ -278,13 +399,13 @@ class PlayBoard(Board):
                                 #     self.screen.blit(label, (10, 10))
 
                                 if self.win_cond(playboard, 2):
-                                    label = self.font.render("Player 2 wins!!", 1, self.yellow)
+                                    label = self.font.render("Player 2 wins!!", True, self.yellow)
                                     self.screen.blit(label, (10, 10))
                                     game_over = True
                         else:
                             sys.exit()
 
-                    self.print_board(playboard)
+                    # self.print_board(playboard)
                     self.render_board(playboard)
 
                     turn += 1
