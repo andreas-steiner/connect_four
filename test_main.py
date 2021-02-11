@@ -3,10 +3,7 @@ from main import Board, PlayBoard
 
 
 class test_game(unittest.TestCase):
-
-
-
-
+        
     def setUp(self):
 
         self.blank_game_state_1 = [
@@ -36,7 +33,32 @@ class test_game(unittest.TestCase):
             ["1", "1", "2", "2", "1", "2", "1"],
         ]
 
+        self.test_win_cond_1 = [
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            ["2", "2", "2", None, None, None, None],
+            ["1", "1", "1", "1", None, None, None],
+        ]
 
+        self.test_win_cond_2 = [
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            [None, None, None, "1", None, None, None],
+            [None, None, "1", "2", None, None, None],
+            ["2", "1", "2", "1", None, None, None],
+            ["1", "2", "1", "2", None, None, None],
+        ]
+
+        self.test_win_cond_3 = [
+            [None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None],
+            ["1", None, None, None, None, None, None],
+            ["1", "2", None, None, None, None, None],
+            ["1", "2", None, None, None, None, None],
+            ["1", "2", None, None, None, None, None],
+        ]
 
     def test_win_cond(self):
         pass
@@ -44,22 +66,15 @@ class test_game(unittest.TestCase):
     def test_place_stone(self):
         pass
 
+
     def test_make_board(self):
-        #board = PlayBoard.make_board(self)
-        #self.assertEqual(board, np.zeros(7, 6))
         pass
-
-
 
     def test_loc_valid(self):
         pass
 
     def test_next_row(self):
         pass
-
-
-
-    
 
 if __name__ == '__main__':
     unittest.main()
