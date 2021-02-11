@@ -2,70 +2,116 @@ import unittest
 from main import Board, PlayBoard
 
 
+# TODO
+# draw
+# win_cond
+# loc_valid
+# place_stone
+# game_over
+
+
 class test_game(unittest.TestCase):
-        
+
     def setUp(self):
+        self.columns = 6
+        self.rows = 7
 
         self.blank_game_state_1 = [
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
+            ["0", "0", "0", "0", "0", "0", "0"],
+            ["0", "0", "0", "0", "0", "0", "0"],
+            ["0", "0", "0", "0", "0", "0", "0"],
+            ["0", "0", "0", "0", "0", "0", "0"],
+            ["0", "0", "0", "0", "0", "0", "0"],
+            ["0", "0", "0", "0", "0", "0", "0"],
         ]
 
         self.test_game_state_2 = [
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, "2", "1", None, None, None],
-            [None, None, "1", "2", None, None, None],
-            ["1", "2", "2", "1", "2", "1", "2"],
-            ["1", "1", "2", "2", "1", "2", "1"],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "2", "1", "0", "0", "0",],
+            ["0", "0", "1", "2", "0", "0", "0",],
+            ["1", "2", "2", "1", "2", "1", "2",],
+            ["1", "1", "2", "2", "1", "2", "1",],
         ]
 
         self.test_game_stat_3 = [
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, "2", "1", None, None, None],
-            [None, None, "2", "1", None, None, None],
-            ["1", "2", "2", "1", "2", "1", "2"],
-            ["1", "1", "2", "2", "1", "2", "1"],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "2", "1", "0", "0", "0",],
+            ["0", "0", "2", "1", "0", "0", "0",],
+            ["1", "2", "2", "1", "2", "1", "2",],
+            ["1", "1", "2", "2", "1", "2", "1",],
         ]
 
         self.test_win_cond_1 = [
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            ["2", "2", "2", None, None, None, None],
-            ["1", "1", "1", "1", None, None, None],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["2", "2", "2", "0", "0", "0", "0",],
+            ["1", "1", "1", "1", "0", "0", "0",],
         ]
 
         self.test_win_cond_2 = [
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            [None, None, None, "1", None, None, None],
-            [None, None, "1", "2", None, None, None],
-            ["2", "1", "2", "1", None, None, None],
-            ["1", "2", "1", "2", None, None, None],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "0", "1", "0", "0", "0",],
+            ["0", "0", "1", "2", "0", "0", "0",],
+            ["2", "1", "2", "1", "0", "0", "0",],
+            ["1", "2", "1", "2", "0", "0", "0",],
         ]
 
         self.test_win_cond_3 = [
-            [None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None],
-            ["1", None, None, None, None, None, None],
-            ["1", "2", None, None, None, None, None],
-            ["1", "2", None, None, None, None, None],
-            ["1", "2", None, None, None, None, None],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["0", "0", "0", "0", "0", "0", "0",],
+            ["1", "0", "0", "0", "0", "0", "0",],
+            ["1", "2", "0", "0", "0", "0", "0",],
+            ["1", "2", "0", "0", "0", "0", "0",],
+            ["1", "2", "0", "0", "0", "0", "0",],
         ]
 
+        self.test_draw = [
+            ["2", "1", "2", "1", "2", "1", "2",],
+            ["2", "1", "2", "1", "2", "1", "1",],
+            ["2", "1", "2", "1", "2", "1", "2",],
+            ["1", "2", "1", "2", "1", "2", "1",],
+            ["1", "2", "1", "2", "1", "2", "2",],
+            ["1", "2", "1", "2", "1", "2", "1",],
+        ]
+
+        self.test_draw_2 = [
+            [2, 1, 2, 1, 2, 1, 2,],
+            [2, 1, 2, 1, 2, 1, 1,],
+            [2, 1, 2, 1, 2, 1, 2,],
+            [1, 2, 1, 2, 1, 2, 1,],
+            [1, 2, 1, 2, 1, 2, 2,],
+            [1, 2, 1, 2, 1, 2, 1,],
+        ]
+
+        self.test_draw_3 = [
+            [2, 1, 2, 1, 2, 0, 2,],
+            [2, 1, 2, 1, 2, 1, 1,],
+            [2, 1, 2, 1, 2, 1, 2,],
+            [1, 2, 1, 2, 1, 2, 1,],
+            [1, 2, 1, 2, 1, 2, 2,],
+            [1, 2, 1, 2, 1, 2, 1,],
+        ]
+
+
+
+    def test_draw(self):
+        self.assertTrue(PlayBoard.draw(self, self.test_draw_2))
+        self.assertTrue(PlayBoard.draw(self, self.test_draw_3))
+        #self.assertFalse(PlayBoard.draw(self, self.test_draw_2))
+        #self.assertFasle(PlayBoard.draw(self, self.test_draw_3))
+
+
     def test_win_cond(self):
+        #self.assertTrue(PlayBoard.win_cond(self, self.test_win_cond_3, None))
         pass
 
     def test_place_stone(self):
         pass
-
 
     def test_make_board(self):
         pass
@@ -76,6 +122,8 @@ class test_game(unittest.TestCase):
     def test_next_row(self):
         pass
 
+
 if __name__ == '__main__':
     unittest.main()
+
 
