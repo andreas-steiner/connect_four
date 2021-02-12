@@ -4,10 +4,12 @@ import pygame
 import sys
 import math
 import random
+import  time
 
 
 # TODO
 # make logic to not allow stone placement in full columns -> somewhat done should work in theory but isn't rn
+# wait for pygame init until multiplayer decision is made
 # make Computer opponent -> made random moves for CPU opponent, make cpu end its turn without clicking
 # Unit Tests
 # Doc -> added docstrings, inline comments next where they are needed
@@ -192,6 +194,7 @@ class PlayBoard(Board):
     def __init__(self):
         super().__init__()
 
+
     def make_board(self):
         board = np.zeros((self.rows, self.columns))
         return board
@@ -314,6 +317,14 @@ class PlayBoard(Board):
         """
         multiplayer = input("Multiplayer? Y/N: ")
         multiplayer = multiplayer.upper()
+
+        if multiplayer == 'Y' or multiplayer == 'N':
+            return multiplayer
+        else:
+            multiplayer = 'N'
+            return multiplayer
+
+
         play_board = self.make_board()
         game_over = False
         turn = 0
