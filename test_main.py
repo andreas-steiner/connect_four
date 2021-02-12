@@ -4,12 +4,9 @@ from main import Board, PlayBoard
 
 
 # TODO
-# draw - I think it's done
-# win_cond - I think it's done
-# loc_valid
+# loc_valid - not working properly yet
 # place_stone
-# game_over
-
+# a test to check if game knows not to place a stone in a full column. Function not properly implemented yet
 
 class test_main(unittest.TestCase):
     """
@@ -93,7 +90,6 @@ class test_main(unittest.TestCase):
         -------------
         """
 
-
         self.board_state_1 = np.array([[0, 0, 0, 0, 0, 0, 0, ],
                                        [0, 0, 0, 0, 0, 0, 0, ],
                                        [0, 0, 0, 0, 0, 0, 0, ],
@@ -157,7 +153,8 @@ class test_main(unittest.TestCase):
         """
 
     def test_loc_valid(self):
-        #Should basically work like above. If Loc is valid value = 0, If Loc is not Valid value = None? Does not work tho
+        # Should basically work like above. If Loc is valid value = 0, If Loc is not Valid value = None? Does not
+        # work tho
         self.assertEqual(PlayBoard.loc_valid(self, self.board_state_1, 4), 0)
         self.assertEqual(PlayBoard.loc_valid(self, self.draw, 3), 0)
 
