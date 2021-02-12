@@ -8,7 +8,7 @@ import random
 
 # TODO
 # make logic to not allow stone placement in full columns -> somewhat done should work in theory but isn't rn
-# make Computer opponent -> made random moves for CPU opponent
+# make Computer opponent -> made random moves for CPU opponent, make cpu end its turn without clicking
 # Unit Tests
 # Doc -> added docstrings, inline comments next where they are needed
 # make package list for virtual environment
