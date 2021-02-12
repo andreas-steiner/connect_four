@@ -57,6 +57,17 @@ class test_main(unittest.TestCase):
         -------------
         """
 
+        self.win_4 = np.array([[0, 0, 0, 0, 0, 0, 0],
+                               [0, 0, 0, 0, 0, 0, 0],
+                               [2, 0, 0, 0, 0, 0, 0],
+                               [1, 2, 1, 2, 0, 0, 0],
+                               [1, 1, 2, 1, 0, 0, 0],
+                               [1, 2, 1, 2, 0, 0, 0]])
+        """
+        Game state: Player 1 won with 4 diagonal pieces
+        -------------
+        """
+
         self.not_win = np.array([[0, 0, 0, 0, 0, 0, 0],
                                  [0, 0, 0, 0, 0, 0, 0],
                                  [2, 0, 0, 0, 0, 0, 0],
@@ -95,10 +106,31 @@ class test_main(unittest.TestCase):
                                        [0, 0, 0, 0, 0, 0, 0, ],
                                        [0, 0, 0, 2, 0, 0, 0, ],
                                        [1, 0, 0, 2, 0, 0, 0, ],
-                                       [1, 2, 1, 2, 1, 2, 1, ]])
-
+                                       [1, 2, 1, 2, 0, 2, 1, ]])
         """
         Game state: still running game
+        -------------
+        """
+
+        self.board_state_2 = np.array([[0, 0, 0, 0, 0, 0, 0, ],
+                                       [0, 0, 0, 0, 0, 0, 0, ],
+                                       [0, 0, 0, 0, 0, 0, 0, ],
+                                       [0, 0, 0, 2, 0, 0, 0, ],
+                                       [1, 0, 0, 2, 0, 0, 0, ],
+                                       [1, 2, 1, 2, 1, 2, 1, ]])
+        """
+        Game state: still running game
+        -------------
+        """
+
+        self.board_state_2_2 = np.array([[0, 0, 0, 0, 0, 0, 0, ],
+                                       [0, 0, 0, 0, 0, 0, 0, ],
+                                       [0, 0, 0, 0, 0, 0, 0, ],
+                                       [0, 0, 0, 2, 0, 0, 0, ],
+                                       [1, 0, 0, 2, 0, 0, 0, ],
+                                       [1, 2, 1, 2, 1, 2, 1, ]])
+        """
+        Game state: still running game; Identical to self.board_state_2
         -------------
         """
 
@@ -134,7 +166,12 @@ class test_main(unittest.TestCase):
         Tests for diagonal win condition on player ones' side
         -------------
         """
-        self.assertFalse(PlayBoard.win_cond(self, self.not_win, any([1, 1])), msg="Has actually won!")
+        self.assertTrue(PlayBoard.win_cond(self, self.win_4, self.player_two), msg="Player 2 has not won!")
+        """
+        Tests for diagonal win condition on player ones' side
+        -------------
+        """
+        self.assertFalse(PlayBoard.win_cond(self, self.not_win, self.player_one), msg="Has actually won!")
 
     def test_next_row(self):
         """
@@ -153,14 +190,42 @@ class test_main(unittest.TestCase):
         """
 
     def test_loc_valid(self):
-        # Should basically work like above. If Loc is valid value = 0, If Loc is not Valid value = None? Does not
-        # work tho
-        self.assertEqual(PlayBoard.loc_valid(self, self.board_state_1, 4), 0)
-        self.assertEqual(PlayBoard.loc_valid(self, self.draw, 3), 0)
+        """
+        Test for function loc_valid():
+        -------------
+        """
+        self.assertTrue(PlayBoard.loc_valid(self, self.board_state_1, 4), msg="location is not valid")
+        """
+        test_loc only checks if a given column has no pieces in it yet. If the column is filled with 0 it should
+        return True
+        -------------
+        """
+        self.assertFalse(PlayBoard.loc_valid(self, self.board_state_1, 3), msg="location is valid")
+        """
+        if there is just one player piece in a given column it should return False
+        -------------
+        """
 
     def test_place_stone(self):
-        pass
-
+        """
+        Test for function place_stone():
+        -------------
+        """
+        test = str(PlayBoard.place_stone(self, self.board_state_1, 5, 4, self.player_one))
+        result = str(self.board_state_2)
+        self.assertEqual(test, result)
+        """
+        after using the function place_stone(): on self.board_state_1 with the values 5, 4 and self.player_one
+        it should be equal to self.board_state_2
+        -------------
+        """
+        test_2 = str(PlayBoard.place_stone(self, self.board_state_2, 5, 4, self.player_two))
+        result_2 = str(self.board_state_2_2)
+        self.assertNotEqual(test_2, result_2)
+        """
+        uses two identical board states. after using place_stone(): on one of them, it should no longer be equal to
+        the other one. 
+        """
 
 if __name__ == '__main__':
     unittest.main()
