@@ -156,9 +156,10 @@ class test_main(unittest.TestCase):
         -------------
         """
 
-    # def test_loc_valid(self):
-    # self.assertTrue(self, self.board_state_1)
-    # self.assertTrue(self, self.board_state_2)
+    def test_loc_valid(self):
+        #Should basically work like above. If Loc is valid value = 0, If Loc is not Valid value = None? Does not work tho
+        self.assertEqual(PlayBoard.loc_valid(self, self.board_state_1, 4), 0)
+        self.assertEqual(PlayBoard.loc_valid(self, self.draw, 3), 0)
 
     def test_place_stone(self):
         pass
