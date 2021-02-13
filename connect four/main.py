@@ -4,7 +4,7 @@ import pygame
 import sys
 import math
 import random
-import  time
+pygame.init()
 
 
 # TODO
@@ -19,7 +19,9 @@ import  time
 
 
 class Board(abc.ABC):
-    """Board class used as parent class for the future playing board
+    """
+    Board class used as parent class for the future playing board
+
     Parameters
     ___________
     columns : int
@@ -63,9 +65,10 @@ class Board(abc.ABC):
         self.__red = (255, 0, 0)
         self.__yellow = (255, 255, 0)
         self.__rad = int(self.size / 2 - 5)
-        # pygame.init()
-        # self.__screen = pygame.display.set_mode(self.__screen_size)
-        # self.__font = pygame.font.SysFont("arial", 75)
+
+        pygame.init()
+        self.__screen = pygame.display.set_mode(self.__screen_size)
+        self.__font = pygame.font.SysFont("arial", 75)
 
     @property
     def columns(self):
@@ -108,20 +111,21 @@ class Board(abc.ABC):
         return self.__rad
 
     @property
-    def screen_size(self):
-        return self.__screen_size
+    def screen(self):
+        return self.__screen
+
+    @property
+    def font(self):
+        return self.__font
 
     # @property
-    # def screen(self):
-    #     return self.__screen
-    #
-    # @property
-    # def font(self):
-    #     return self.__font
+    # def screen_size(self):
+    #     return self.__screen_size
 
     # abstract methods that need to be in the child class
     def make_board(self):
         """Creates the board
+
         Returns
         ___________
         numpy array
@@ -131,6 +135,7 @@ class Board(abc.ABC):
 
     def place_stone(self, board, row, col, stone):
         """updates the Board with the position of the placed stone
+
         Parameters
         ___________
         board : numpy array
@@ -150,12 +155,14 @@ class Board(abc.ABC):
 
     def loc_valid(self, board, col):
         """checks if the selected placement is valid
+
         Parameters
         ___________
         board : numpy array
             a representation of the board in array form
         col : int
             identifier for column position
+
         Returns
         ___________
         board : numpy array
@@ -165,12 +172,14 @@ class Board(abc.ABC):
 
     def next_row(self, board, col):
         """checks if the next stone would end up in a new row
+
         Parameters
         ___________
         board : numpy array
             a representation of the board in array form
         col : int
             identifier for column position
+
         Returns
         ___________
         board : numpy array
@@ -180,12 +189,14 @@ class Board(abc.ABC):
 
     def win_cond(self, board, stone):
         """win conditions that would result in the end of the game
+
         Parameters
         ___________
         board : numpy array
             a representation of the board in array form
         stone : int
             identifier for which player placed the stone for ex. 1 for player one
+
         Returns
         ___________
         bool
@@ -205,10 +216,12 @@ class PlayBoard(Board):
     @staticmethod
     def print_board(board):
         """ prints the numpy array of the board to the console
+
         Parameters
         ___________
         board : numpy array
             a representation of the board in array form
+
         Returns
         ___________
         str
@@ -260,10 +273,12 @@ class PlayBoard(Board):
     @staticmethod
     def draw(board):
         """checks if there are still valid places left for stones
+
         Parameters
         ___________
         board : numpy array
             a representation of the board in array form
+
         Returns
         ___________
         Bool
@@ -285,36 +300,39 @@ class PlayBoard(Board):
 
     def render_board(self, board):
         """renders the board in pygame
+
         Parameters
         ___________
         board : numpy array
             a representation of the board in array form
+
         Returns
         ___________
         function
             a pygame display update with the applied settings
         """
-        screen = pygame.display.set_mode(self.screen_size)
+        # screen = pygame.display.set_mode(self.screen_size)
         for c in range(self.columns):
             for r in range(self.rows):
-                pygame.draw.rect(screen, self.blue,
+                pygame.draw.rect(self.screen, self.blue,
                                  (c * self.size, r * self.size + self.size, self.size, self.size))
-                pygame.draw.circle(screen, self.black,
+                pygame.draw.circle(self.screen, self.black,
                                    (int(c * self.size + self.size / 2), int(r * self.size + self.size + self.size / 2)),
                                    self.rad)
 
         for c in range(self.columns):
             for r in range(self.rows):
                 if board[r][c] == 1:
-                    pygame.draw.circle(screen, self.red, (
+                    pygame.draw.circle(self.screen, self.red, (
                         int(c * self.size + self.size / 2), self.height - int(r * self.size + self.size / 2)), self.rad)
                 elif board[r][c] == 2:
-                    pygame.draw.circle(screen, self.yellow, (
+                    pygame.draw.circle(self.screen, self.yellow, (
                         int(c * self.size + self.size / 2), self.height - int(r * self.size + self.size / 2)), self.rad)
         pygame.display.update()
 
     def start_game(self):
         """starts a game of connect 4 and asks the player for multiplayer or single player
+
         Returns
         ___________
         opens a new window with a game of connect 4 running on it
@@ -325,15 +343,15 @@ class PlayBoard(Board):
             multiplayer = multiplayer
         elif multiplayer is not 'Y' and multiplayer is not 'N':
             multiplayer = 'N'
-            return multiplayer
 
         play_board = self.make_board()
         game_over = False
         turn = 0
 
-        pygame.init()
-        screen = pygame.display.set_mode(self.screen_size)
-        font = pygame.font.SysFont("arial", 75)
+        # pygame.init()
+        # screen = pygame.display.set_mode(self.screen_size)
+        # font = pygame.font.SysFont("arial", 75)
+
         self.render_board(play_board)
         pygame.display.update()
         # Ask for Solo or Multiplayer
@@ -343,16 +361,16 @@ class PlayBoard(Board):
                     sys.exit()
 
                 if event.type == pygame.MOUSEMOTION:
-                    pygame.draw.rect(screen, self.black, (0, 0, self.width, self.size))
+                    pygame.draw.rect(self.screen, self.black, (0, 0, self.width, self.size))
                     position = event.pos[0]
                     if turn == 0:
-                        pygame.draw.circle(screen, self.red, (position, int(self.size / 2)), self.rad)
+                        pygame.draw.circle(self.screen, self.red, (position, int(self.size / 2)), self.rad)
                     else:
-                        pygame.draw.circle(screen, self.yellow, (position, int(self.size / 2)), self.rad)
+                        pygame.draw.circle(self.screen, self.yellow, (position, int(self.size / 2)), self.rad)
                     pygame.display.update()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    pygame.draw.rect(screen, self.black, (0, 0, self.width, self.size))
+                    pygame.draw.rect(self.screen, self.black, (0, 0, self.width, self.size))
                     # print(event.pos)
                     # Ask for Player 1 Input
                     if turn == 0:
@@ -363,24 +381,19 @@ class PlayBoard(Board):
                             row = self.next_row(play_board, col)
                             self.place_stone(play_board, row, col, 1)
 
-                            if self.draw(play_board):
-                                label = font.render("Draw!", True, self.blue)
-                                screen.blit(label, (10, 10))
-                                game_over = True
+                        if self.draw(play_board):
+                            label = self.font.render("Draw!", True, self.blue)
+                            self.screen.blit(label, (10, 10))
+                            game_over = True
 
-                            # if self.column_full(play_board):
-                            #     label = self.font.render("FULL!", 1, self.blue)
-                            #     self.screen.blit(label, (10, 10))
-
-                            if self.win_cond(play_board, 1):
-                                label = font.render("Player 1 wins!!", True, self.red)
-                                screen.blit(label, (10, 10))
-                                game_over = True
+                        if self.win_cond(play_board, 1):
+                            label = self.font.render("Player 1 wins!!", True, self.red)
+                            self.screen.blit(label, (10, 10))
+                            game_over = True
 
                     # Ask for Player 2 Input
                     else:
                         if multiplayer == 'Y':
-
                             position = event.pos[0]
                             col = int(math.floor(position / self.size))
 
@@ -388,19 +401,15 @@ class PlayBoard(Board):
                                 row = self.next_row(play_board, col)
                                 self.place_stone(play_board, row, col, 2)
 
-                                if self.draw(play_board):
-                                    label = font.render("Draw!", True, self.blue)
-                                    screen.blit(label, (10, 10))
-                                    game_over = True
+                            if self.draw(play_board):
+                                label = self.font.render("Draw!", True, self.blue)
+                                self.screen.blit(label, (10, 10))
+                                game_over = True
 
-                                # if self.column_full(play_board):
-                                #     label = self.font.render("FULL!", 1, self.blue)
-                                #     self.screen.blit(label, (10, 10))
-
-                                if self.win_cond(play_board, 2):
-                                    label = font.render("Player 2 wins!!", True, self.yellow)
-                                    screen.blit(label, (10, 10))
-                                    game_over = True
+                            if self.win_cond(play_board, 2):
+                                label = self.font.render("Player 2 wins!!", True, self.yellow)
+                                self.screen.blit(label, (10, 10))
+                                game_over = True
 
                         elif multiplayer == 'N':
                             col = random.randint(0, 6)
@@ -409,19 +418,16 @@ class PlayBoard(Board):
                                 row = self.next_row(play_board, col)
                                 self.place_stone(play_board, row, col, 2)
 
-                                if self.draw(play_board):
-                                    label = font.render("Draw!!", True, self.blue)
-                                    screen.blit(label, (10, 10))
-                                    game_over = True
+                            if self.draw(play_board):
+                                label = self.font.render("Draw!!", True, self.blue)
+                                self.screen.blit(label, (10, 10))
+                                game_over = True
 
-                                # if self.column_full(play_board):
-                                #     label = self.font.render("FULL!", 1, self.blue)
-                                #     self.screen.blit(label, (10, 10))
+                            if self.win_cond(play_board, 2):
+                                label = self.font.render("Player 2 wins!!", True, self.yellow)
+                                self.screen.blit(label, (10, 10))
+                                game_over = True
 
-                                if self.win_cond(play_board, 2):
-                                    label = font.render("Player 2 wins!!", True, self.yellow)
-                                    screen.blit(label, (10, 10))
-                                    game_over = True
                         else:
                             sys.exit()
 
