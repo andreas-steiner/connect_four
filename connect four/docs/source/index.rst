@@ -7,11 +7,14 @@ Welcome to connect four's documentation!
 ========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Contents:
 
    modules
-
+   Design <design>
+   Unit Tests <unittests>
+   KI <ki>
+   Theorie <theory>
 
 Indices and tables
 ==================
