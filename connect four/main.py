@@ -123,7 +123,7 @@ class Board(abc.ABC):
     #     return self.__screen_size
 
     # abstract methods that need to be in the child class
-    def make_board(self):
+    def make_board(self) -> np.array:
         """Creates the board
 
         Returns
@@ -133,7 +133,7 @@ class Board(abc.ABC):
         """
         pass
 
-    def place_stone(self, board, row, col, stone):
+    def place_stone(self, board, row, col, stone) -> np.array:
         """updates the Board with the position of the placed stone
 
         Parameters
@@ -153,7 +153,7 @@ class Board(abc.ABC):
         """
         pass
 
-    def loc_valid(self, board, col):
+    def loc_valid(self, board, col) -> np.array:
         """checks if the selected placement is valid
 
         Parameters
@@ -170,7 +170,7 @@ class Board(abc.ABC):
         """
         pass
 
-    def next_row(self, board, col):
+    def next_row(self, board, col) -> np.array:
         """checks if the next stone would end up in a new row
 
         Parameters
@@ -187,7 +187,7 @@ class Board(abc.ABC):
         """
         pass
 
-    def win_cond(self, board, stone):
+    def win_cond(self, board, stone) -> bool:
         """win conditions that would result in the end of the game
 
         Parameters
@@ -214,7 +214,7 @@ class PlayBoard(Board):
         return board
 
     @staticmethod
-    def print_board(board):
+    def print_board(board) -> print():
         """ prints the numpy array of the board to the console
 
         Parameters
@@ -271,7 +271,7 @@ class PlayBoard(Board):
                     return True
 
     @staticmethod
-    def draw(board):
+    def draw(board) -> bool:
         """checks if there are still valid places left for stones
 
         Parameters
@@ -298,7 +298,7 @@ class PlayBoard(Board):
     #         else:
     #             return True
 
-    def render_board(self, board):
+    def render_board(self, board) -> pygame.display.update():
         """renders the board in pygame
 
         Parameters
@@ -330,7 +330,7 @@ class PlayBoard(Board):
                         int(c * self.size + self.size / 2), self.height - int(r * self.size + self.size / 2)), self.rad)
         pygame.display.update()
 
-    def start_game(self):
+    def start_game(self) -> pygame.display.update():
         """starts a game of connect 4 and asks the player for multiplayer or single player
 
         Returns
