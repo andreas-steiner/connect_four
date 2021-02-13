@@ -17,12 +17,16 @@ wartbar ist, die fehlende Dokumentation macht es zusätzlich noch schwerer herau
 macht. KISS wäre schön, wenn es hier praktiziert werden würde, jedoch wurde das auch missachtet den der Code ist
 weder simple noch small (KISS – Keep it simple and stupid/small). <br>
 Das alles macht es nur sehr schwierig den Code zu verändern, erweitern und zu warten.
-<br><br>
-
+<br>
+---
 
 #### Frage Zwei
 Für die vollständige Überarbeitung/Neuschreiben bleibt Ihnen keine Zeit, da sie ihr/e
 Vorgesetze/r schon mit der Umsetzung des nächsten Features beauftragt hat. <br>
-Wie würden Sie bei der Umsetzung vorgehen?
+Wie würden Sie bei der Umsetzung vorgehen?<br>
 
-Antwort
+#### Antwort
+Da mir keine Zeit für eine vollständige Überarbeitung des Codes bleibt, sollten die 
+anstehenden Features anhand der Software-Design-Prinzipien umgesetzt werden und 
+der bereits bestehende Code nach und nach mithilfe von Refactoring. Wir wollen dadurch
+die interne Struktur des Codes verbessern, ohne das externe Verhalten zu verändern.
