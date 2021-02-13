@@ -3,11 +3,6 @@ import numpy as np
 from game.main import PlayBoard
 
 
-# TODO
-# loc_valid - not working properly yet
-# place_stone
-# a test to check if game knows not to place a stone in a full column. Function not properly implemented yet
-
 class test_main(unittest.TestCase):
     """
     Unit Test class for main.py
