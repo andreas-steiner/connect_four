@@ -341,7 +341,7 @@ class PlayBoard(Board):
         multiplayer = multiplayer.upper()
         if multiplayer == 'Y' or multiplayer == 'N':
             multiplayer = multiplayer
-        elif multiplayer is not 'Y' and multiplayer is not 'N':
+        elif multiplayer != 'Y' and multiplayer != 'N':
             multiplayer = 'N'
 
         play_board = self.make_board()
