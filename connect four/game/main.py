@@ -4,6 +4,7 @@ import pygame
 import sys
 import math
 import random
+from typing import Type
 pygame.init()
 
 
@@ -123,7 +124,7 @@ class Board(abc.ABC):
     #     return self.__screen_size
 
     # abstract methods that need to be in the child class
-    def make_board(self) -> np.array:
+    def make_board(self) -> Type[np.array]:
         """Creates the board
 
         Returns
@@ -133,7 +134,7 @@ class Board(abc.ABC):
         """
         pass
 
-    def place_stone(self, board, row, col, stone) -> np.array:
+    def place_stone(self, board, row, col, stone) -> Type[np.array]:
         """updates the Board with the position of the placed stone
 
         Parameters
@@ -153,7 +154,7 @@ class Board(abc.ABC):
         """
         pass
 
-    def loc_valid(self, board, col) -> np.array:
+    def loc_valid(self, board, col) -> Type[np.array]:
         """checks if the selected placement is valid
 
         Parameters
@@ -170,7 +171,7 @@ class Board(abc.ABC):
         """
         pass
 
-    def next_row(self, board, col) -> np.array:
+    def next_row(self, board, col) -> Type[np.array]:
         """checks if the next stone would end up in a new row
 
         Parameters
@@ -214,7 +215,7 @@ class PlayBoard(Board):
         return board
 
     @staticmethod
-    def print_board(board) -> print():
+    def print_board(board) -> Type[print()]:
         """ prints the numpy array of the board to the console
 
         Parameters
@@ -298,7 +299,7 @@ class PlayBoard(Board):
     #         else:
     #             return True
 
-    def render_board(self, board) -> pygame.display.update():
+    def render_board(self, board):
         """renders the board in pygame
 
         Parameters
@@ -330,7 +331,7 @@ class PlayBoard(Board):
                         int(c * self.size + self.size / 2), self.height - int(r * self.size + self.size / 2)), self.rad)
         pygame.display.update()
 
-    def start_game(self) -> pygame.display.update():
+    def start_game(self):
         """starts a game of connect 4 and asks the player for multiplayer or single player
 
         Returns
@@ -431,7 +432,7 @@ class PlayBoard(Board):
                         else:
                             sys.exit()
 
-                    # self.print_board(play_board)
+                    self.print_board(play_board)
                     self.render_board(play_board)
 
                     turn += 1
